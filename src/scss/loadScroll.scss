@@ -1,1 +1,19 @@
-loadScroll.scss
+body{margin:0;}
+ul{margin:0;padding:0;}
+a{text-decoration:none;color:#000;}
+#loadScroll{
+	list-style:none;
+}
+#loadScroll>li{
+	position:relative;
+	overflow: hidden;
+	border-bottom:1px solid #ddd;
+}
+#loadScroll>li>.loadScroll_front{
+	position: relative;
+	padding:10px;
+	background-color:#fff;
+}
+#loadScroll>.loadScroll_active>.loadScroll_front{
+	background:#ccc;
+}
