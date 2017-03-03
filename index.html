@@ -8,12 +8,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
 	<title>loadScroll</title>
+
 	<link rel="stylesheet" type="text/css" href="dist/css/index.css">
 	<link rel="stylesheet" type="text/css" href="dist/css/loadScroll.css">
 	<script type="text/javascript" src="dist/js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="dist/js/loadScroll.js"></script>
 </head>
 <body>
-
+<script> 
+	(function(){window.scrollTo(0,0);})
+</script>
+	<!-- <div id="loadScroll_topLoading">
+		<i class="loadScroll_loadingIcon icon-loading"></i>
+		<span>正在刷新</span>
+	</div> -->
+	<ul id="loadScroll">
+		<li data-del="true">
+			<div class="loadScroll_cover">
+				<button data-id="ad">remove</button>
+			</div>
+			<div class="loadScroll_front">我是传奇</div>
+		</li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li data-del="true"><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+		<li><div class="loadScroll_front">我是传奇</div></li>
+	</ul>
+<!-- 	<div id="loadScroll_bottomLoading">
+		<i class="loadScroll_loadingIcon icon-loading"></i>
+		<span>正在加载</span>
+	</div> -->
+	<script>
+	var params={
+		topLoadingText:["下拉刷新","释放立即刷新","正在加载"],//顶部文字信息
+		refreshList:function(){console.log("refreshList")},//列表刷新函数
+		refreshListDone:function(data){console.log("refreshListDone")},
+		refreshListError:function(data){console.log("refreshListError")},
+		pushList:{	//列表加载函数
+			url:"/a",
+			data:{},
+			success:function(){console.log("pishListDone")},
+			fail:function(){console.log("pishListFail")},
+			error:function(){console.log("pishListError")}
+		},
+		removeItem:{	//列表加载函数
+			url:"/a",
+			data:{},
+			success:function(){console.log("removeItemDone")},
+			fail:function(){console.log("removeItemFail")},
+			error:function(){console.log("removeItemError")}
+		}
+	}
+	loadScroll(params);
+	</script>
 </body>
 </html>
