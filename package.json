@@ -1,0 +1,29 @@
+{
+  "name": "loadScroll",
+  "version": "0.0.1",
+  "description": "`loadScroll.js` 是一个移动端的上拉、下拉加载更多的组件。",
+  "main": "dist/loadScroll.js",
+  "scripts": {
+    "build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/William-Gu/loadScroll.git"
+  },
+  "author": "William-Gu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/William-Gu/loadScroll/issues"
+  },
+  "homepage": "https://github.com/William-Gu/loadScroll#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-filter": "^5.0.0",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "postcss-scss": "^0.4.1"
+  }
+}
