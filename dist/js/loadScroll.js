@@ -143,7 +143,7 @@ jQuery.fn.extend({
 		scrollTop = $(this).scrollTop();
 		if( !isEnd && !isLoading){
 			if(scrollTop + $(window).height() + 120 > $(document).height() ){
-				pushList();
+				pushList(params.pushList);
 			}
 		}
 	})
@@ -170,30 +170,31 @@ jQuery.fn.extend({
                 }
             })
         })
-	function pushList(isfresh) {
-		isLoading=true;
+	function pushList(data) {
+		this.isLoading=true;
 		$.ajax({
-			url:params.pushList.url || "",
-			data:params.pushList.data || {},
+			url:data.url || "",
+			data:data.data || {},
+			type:data.type || "POST",
 			success:function(json){
 				if(json.status==1){
 					if(isfresh){
 						$("#loadScroll li").remove();
 					}
 					$("#loadScroll").append(json.data)
-					params.pushList.success() || "";
+					data.success() || "";
 				}else if(json.status==2){
-					params.pushList.fail() || "";
+					data.fail() || "";
 				}
 			},
 			error:function(){
-				params.pushList.error() || "";
+				data.error() || "";
 			},
 			complete:function(){
-				isLoading=false;
+				this.isLoading=false;
 				returnBack();
 			}
-		})
+		}.bind(this))
 	}
 	function returnBack(){		//下拉进程恢复
 		$('#loadScroll_topLoading,#loadScroll_bottomLoading, #loadScroll').css("transform","translate3D(0,0,0)");
