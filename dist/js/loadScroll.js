@@ -2,9 +2,9 @@ function loadScroll(params){
 	// 创建topLoading
 	var dom_topLoading=document.createElement("div");
     	dom_topLoading.id = "loadScroll_topLoading";
-    var dom_i=document.createElement("i")
+    var dom_i=document.createElement("i");
 	    dom_i.className = "loadScroll_loadingIcon icon-loading";
-    dom_topLoading.appendChild(dom_i)
+    dom_topLoading.appendChild(dom_i);
     var dom_span=document.createElement("span");
     	dom_span.innerText=params.topLoadingText[0];
     dom_topLoading.appendChild(dom_span);
@@ -23,7 +23,6 @@ function loadScroll(params){
     dom_bottomLoading.appendChild(dom_span);
 	$("body").append(dom_bottomLoading);
 
-
 //use fn with setTimeout in jQuery.
 jQuery.fn.extend({
 	timeOut:function(fn,time){
@@ -32,7 +31,7 @@ jQuery.fn.extend({
 		}else{
 			var t=setTimeout(function(){
 				fn();
-				clearTimeout(t)
+				clearTimeout(t);
 			},time)
 		}
 	}
@@ -49,39 +48,36 @@ jQuery.fn.extend({
 	//对列表的操作
 	$("#loadScroll")
 		.on('touchstart',"li",function(e){
-			y=ey=eyy=scrollTop=0;
+			y = ey = eyy = scrollTop = 0;
+			y = e.originalEvent.targetTouches[0].screenY;
 			$(this).addClass('loadScroll_active');
-			y =  e.originalEvent.targetTouches[0].screenY;
 		})
 		.on('touchmove',"li",function(e){
 			ey=y-e.originalEvent.targetTouches[0].screenY;
 			scrollTop=$(window).scrollTop();
-			if(scrollTop==0 && ey<-5 ){
-				e.preventDefault();
-			}
+			if(scrollTop==0 && ey<-5 ) e.preventDefault();
 		})
 		.on('touchend',"li",function(e){
 			$(this).removeClass('loadScroll_active');
 		})
 		.on('touchstart',"[data-del=true] .loadScroll_front",function(e){
-			console.log("s")
-			x=ex=exx=0;
+			x = ex = exx = 0;
 			delMoveable=false;
 			x =  e.originalEvent.targetTouches[0].screenX;
 			if(!this.classList.contains("loadScroll_front_active")){
 				var $active=$(".loadScroll_front_active");
-				$(".loadScroll_front_active")
+				$(".loadScroll_front_active")	//transition写在此处是因为在webview中transition无效。
 					.css({"transition":"transform .2s","transform":"translateX(0)"})
-					.timeOut(function(){
+					.timeOut(function(){		//清理界面
 						$active.removeAttr("style").removeClass("loadScroll_front_active");
 					},200)
 			}
 		})
 		.on('touchmove',"[data-del=true] .loadScroll_front",function(e){
 			ex=x-e.originalEvent.targetTouches[0].screenX;
-			if(Math.abs(ex) > Math.abs(ey)){e.preventDefault();}
+			if(Math.abs(ex) > Math.abs(ey)){e.preventDefault();}	//兼容android设备
 			if(!this.classList.contains("loadScroll_front_active")){
-				exx=ex-10;
+				exx=ex-10;	//防止误触
 				if(exx>0 && (Math.abs(exx) > Math.abs(ey*3) || delMoveable) ){
 					if(exx<=WDELETE){
 						$(this).css("transform","translateX("+exx*-1+"px)");
@@ -113,14 +109,15 @@ jQuery.fn.extend({
 	$(document)
 		.on('touchmove',function(e){
 			//顶部重新加载过程
-			eyy=ey*0.5+40;
+			var pullH = -40;	//下拉加载高度
+			eyy=ey*0.5+pullH*-1;		//下拉高度>40，且高度为下拉的一半
 			if(scrollTop<=0  && eyy<0){
 				$('#loadScroll_topLoading,#loadScroll_bottomLoading, #loadScroll')
 					.css('transform',"translate3D(0,"+eyy*-1+"px,0)");
-				if(eyy >= -40){
+				if(eyy >= pullH){
 					$('#loadScroll_topLoading .loadScroll_loadingIcon').removeClass('icon-loading-animation')
 					$('#loadScroll_topLoading span').html(params.topLoadingText[0])
-				}else if(eyy < -40){
+				}else if(eyy < pullH){
 					$('#loadScroll_topLoading .loadScroll_loadingIcon').addClass('icon-loading-animation')
 					$('#loadScroll_topLoading span').html(params.topLoadingText[1]);
 				}
@@ -129,8 +126,9 @@ jQuery.fn.extend({
 		.on('touchend',function(e){
 			//顶部重新加载
 			if(scrollTop<=0){
-				if(eyy < -40){
-					$("#loadScroll_topLoading,#loadScroll_bottomLoading, #loadScroll").css("transform","translate3D(0,"+dom_topLoading_height+"px,0)");
+				if(eyy < pullH){	//设置
+					$("#loadScroll_topLoading,#loadScroll_bottomLoading, #loadScroll")
+						.css("transform","translate3D(0,"+dom_topLoading_height+"px,0)");
 					$('#loadScroll_loadingIcon').addClass('icon-loading-animation')
 					$("#loadScroll_topLoading span").html(params.topLoadingText[2]);
 					pushList();
@@ -160,15 +158,15 @@ jQuery.fn.extend({
                 success:function(json){
                     if(json.status==1){
                         that.closest('li').slideUp('fast', function() {
-                        	params.removeItem.success() || ""
+                        	params.removeItem.success() || "";
                             if($('.ui-article').length==0){location.reload()}
                         })
                     }else if(json.status==2) {
-                        params.removeItem.fail() || ""
+                        params.removeItem.fail() || "";
                     }
                 },
                 error:function(json){
-                    params.pushList.error() || ""
+                    params.pushList.error() || "";
                 }
             })
         })
@@ -193,11 +191,11 @@ jQuery.fn.extend({
 			},
 			complete:function(){
 				isLoading=false;
-				returnBack()
+				returnBack();
 			}
 		})
 	}
-	function returnBack(){
+	function returnBack(){		//下拉进程恢复
 		$('#loadScroll_topLoading,#loadScroll_bottomLoading, #loadScroll').css("transform","translate3D(0,0,0)");
 		$('#loadScroll_loadingIcon').removeClass('icon-loading-animation')
 		$("#loadScroll_topLoading span").html(params.topLoadingText[0]);
